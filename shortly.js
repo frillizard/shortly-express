@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
+// app.use(session({}));
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -80,8 +80,7 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
   new User({ username: req.body.username }).fetch().then((found) => {
     if (found) {
-      // res.status(200).send(found.attributes);
-      res.send('Account already exists');
+      res.send('Username already exists');
     } else {
       Users.create({
         username: req.body.username,
@@ -97,9 +96,8 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  new User({ username: req.body.username, password: req.body.password}).fetch().then(function(found) {
+  new User({ username: req.body.username, password: req.body.password}).fetch().then((found) => {
     if (found) {
-      // res.status(200).send(found.attributes);
       res.send('Login successful!');
     } else {
       res.send('Account not found');
