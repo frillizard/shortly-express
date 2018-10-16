@@ -96,7 +96,12 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  new User({ username: req.body.username, password: req.body.password}).fetch().then((found) => {
+  let credentials = {
+    username: req.body.username,
+    password: req.body.password
+  };
+
+  new User(credentials).fetch().then((found) => {
     if (found) {
       res.send('Login successful!');
     } else {
@@ -104,8 +109,6 @@ app.post('/login', (req, res) => {
     }
   });
 });
-
-
 
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail
